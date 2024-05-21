@@ -1,0 +1,32 @@
+.text_space{
+    margin-left: 32px;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+.container_questao{
+    margin: 32px;
+    border: solid 0.2px #CACACA;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.container_questao h4{
+    margin-bottom: 16px;
+}
+
+
+.container_opcao{
+    display: flex;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.container_opcao input{
+    margin-left: 16px;
+    width: 50%;
+}
+
+.container_questao button{
+    margin-bottom: 16px;
+}

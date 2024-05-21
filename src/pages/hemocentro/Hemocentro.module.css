@@ -1,0 +1,72 @@
+.card {
+    margin: 8px 32px 8px 16px;
+}
+
+.text_space{
+    margin-left: 16px;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+.card:hover{
+    box-shadow: 4px 4px 4px #e2e8f0;
+}
+
+.icon_style {
+    background-color: #E31515;
+    color: #FFF4F4;
+    padding: 8px;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    margin-right: 24px;
+    flex-shrink: 0
+}
+
+.title_container{
+    display: flex;
+    margin: 16px;
+}
+
+.container_estado{
+    display: flex;
+    align-items: center;
+}
+
+.container_dados_hemocentro h5{
+    margin: 8px 32px 8px 16px;
+}
+
+.container_estado h5{
+    margin-left: 16px;
+}
+
+.container_estado h5 label{
+    margin-left: 16px;
+}
+
+.icon_button{
+    padding: 8px;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    margin-left: 16px;
+}
+
+
+.card_body{
+    display: flex;
+    align-items: center;
+}
+
+.botao{
+    margin: 16px 0px 32px 16px;
+}
+
+
+.container {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: center;
+    display: inline-block;
+}

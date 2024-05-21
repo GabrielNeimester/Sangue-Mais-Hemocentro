@@ -1,0 +1,20 @@
+.header{
+    background-color: #E31515;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.logo{
+    display: flex;
+    flex-grow: 9;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    align-items: center;
+    color: #FFF4F4;
+}
+
+.logoSvg{
+    margin-left: 16px;
+}

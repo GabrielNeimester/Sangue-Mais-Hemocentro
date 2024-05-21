@@ -1,0 +1,42 @@
+.tituloModal{
+    font-size: 32px;
+    font-weight: 700;
+    color: #E31515;
+}
+
+.header_modal{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.header_modal svg{
+    margin-top: 16px;
+}
+
+.subtituloModal{
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+.textoModal{
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.footerModal{
+    display: flex;
+    justify-content: center;
+}
+
+.footerModal button{
+    margin: 16px;
+}
+
