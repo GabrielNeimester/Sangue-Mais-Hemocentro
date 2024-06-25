@@ -3,6 +3,7 @@ import Login from "../pages/login"
 import Home from "../pages/home"
 import HemocentroPagina from "../pages/hemocentro"
 import Formulario from "../pages/formulario"
+import NotFound from "../pages/notFound"
 
 
 const routes = createBrowserRouter([
@@ -21,6 +22,10 @@ const routes = createBrowserRouter([
   {
     path:"/formulario",
     element: <Formulario/>
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ])
 
