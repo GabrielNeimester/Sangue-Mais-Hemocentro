@@ -1,0 +1,15 @@
+.redButton {
+  background-color: #E31515;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  align-items: center;
+  padding: 10px;
+}
+
+
+.redButton:hover {
+  background-color: #B30F0F;
+}
