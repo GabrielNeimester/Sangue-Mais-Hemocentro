@@ -10,7 +10,7 @@ interface BotaoVermelhoProps {
 const BotaoVermelho: React.FC<BotaoVermelhoProps> = ({ text, link }) => {
   return (
     <a href={link} className={styles.redButton}>
-      <span>{text}</span>
+      {text}
     </a>
   );
 };
