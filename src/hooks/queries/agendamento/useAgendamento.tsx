@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import api from "../../../config/api";
-import { Questao } from "../../../interfaces/questao";
-import getToken from "../../../helpers/tokenUtil";
+import { useEffect, useState } from "react"
+import api from "../../../config/api"
+import getToken from "../../../helpers/tokenUtil"
+import { Agendamento } from "../../../interfaces/agendamento"
 
-export function useQuestoes() {
-  const [questao, setQuestao] = useState<Questao[]>([]);
+
+export function useAgendamento() {
+  const [agendamento, setAgendamento] = useState<Agendamento | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -12,14 +13,13 @@ export function useQuestoes() {
     setIsLoading(true)
     setIsError(false)
 
-    api.get<Questao[]>('/questoes/showByUser', {
+    api.get<Agendamento>('/agendamento/', {
         headers: {
           Authorization: getToken()
         }
       })
       .then((response) => {
-        setQuestao(response.data)
-        console.log(questao)
+        setAgendamento(response.data)
         setIsLoading(false)
       })
       .catch((error) => {
@@ -29,7 +29,5 @@ export function useQuestoes() {
       })
   }, [])
 
-  return { questao, isLoading, isError };
+  return { agendamento, isLoading, isError };
 }
-
-

@@ -1,0 +1,45 @@
+.card {
+    border: solid 0.2px #CACACA;
+    border: 0.5px solid  #e2e8f0;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 8px 32px 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.card:hover{
+    box-shadow: 4px 4px 4px #e2e8f0;
+}
+
+.card_container{
+    margin-bottom: 32px;
+}
+
+.icon_button{
+    padding: 8px;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    margin-left: 16px;
+}
+
+.card_content{
+    display: flex;
+    align-items: center;
+}
+
+.agendamento{
+    margin-left: 16px;
+}
+
+.skeleton div{
+    margin: 8px 32px 8px 16px;
+    height: 50px;
+}
+
+.titulo{
+    margin: 32px 32px 32px 16px;
+}

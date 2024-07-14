@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import api from "../../../config/api";
-import { Questao } from "../../../interfaces/questao";
 import getToken from "../../../helpers/tokenUtil";
+import { Opcao } from "../../../interfaces/opcao";
 
-export function useQuestoes() {
-  const [questao, setQuestao] = useState<Questao[]>([]);
+export function useOpcao(questaoId:string) {
+  const [opcao, setOpcao] = useState<Opcao| null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -12,14 +12,13 @@ export function useQuestoes() {
     setIsLoading(true)
     setIsError(false)
 
-    api.get<Questao[]>('/questoes/showByUser', {
+    api.get<Opcao>(`/opcoes/${questaoId}`, {
         headers: {
           Authorization: getToken()
         }
       })
       .then((response) => {
-        setQuestao(response.data)
-        console.log(questao)
+        setOpcao(response.data)
         setIsLoading(false)
       })
       .catch((error) => {
@@ -29,7 +28,5 @@ export function useQuestoes() {
       })
   }, [])
 
-  return { questao, isLoading, isError };
+  return { opcao, isLoading, isError };
 }
-
-

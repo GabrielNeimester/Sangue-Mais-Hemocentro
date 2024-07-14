@@ -1,12 +1,9 @@
-import { Button, Card, CardBody, Heading, IconButton, Input, Select, Switch, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Button, Heading, IconButton, Input, Select} from "@chakra-ui/react";
 import Layout from "../../components/Layout";
-import { useParams } from "react-router-dom";
 import { useHemocentro } from "../../hooks/queries/hemocentro/useHemocentro";
-import { useUsers } from "../../hooks/queries/user/useUser";
-import { User } from "../../interfaces/user";
-import { MdOutlinePersonAddAlt, MdOutlinePerson, MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
+import { MdOutlineEdit } from "react-icons/md";
 import styles from "../hemocentro/Hemocentro.module.css"
-import React, { ChangeEvent, ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Hemocentro } from "../../interfaces/hemocentro";
 import { useUpdateHemocentro } from "../../hooks/mutations/hemocentro/mutationHemocentro";
 import ModalCustomizado from "../../components/ModalResultado";
@@ -15,9 +12,7 @@ import { MdCheckCircleOutline, MdOutlineCancel } from "react-icons/md"
 
 export default function HemocentroPagina() {
 
-  const { id } = useParams()
-  const { hemocentro, isLoading } = useHemocentro(String(id))
-  const { users, isLoadingUsers } = useUsers(String(id))
+  const { hemocentro } = useHemocentro()
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
   const handleButtonDisabled = () => setButtonDisabled(!buttonDisabled)
   const [edicaoHemocentro, setEdicaoHemocentro] = useState<Hemocentro>({
@@ -87,7 +82,7 @@ export default function HemocentroPagina() {
         texto={modalContent?.texto || ""}
         onClose={handleCloseModal} icone={modalContent?.icone}      />
       <div className={styles.title_container}>
-        <Heading as='h3' size='lg'>Editar Hemocentro</Heading>
+        <Heading as='h3' size='lg'>Dados Cadastrais do Hemocentro</Heading>
         <IconButton aria-label='Search database' icon={<MdOutlineEdit size={'24px'} />} className={styles.icon_button} onClick={handleButtonDisabled} />
       </div>
       {hemocentro && (
@@ -144,37 +139,12 @@ export default function HemocentroPagina() {
             <Heading as='h5' size='sm'>Telefone
               <Input isDisabled={buttonDisabled} value={edicaoHemocentro.telefone} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, telefone: e.target.value })}></Input>
             </Heading>
-            <Tooltip hasArrow arrowSize={15} label='bloqueia acesso dos usuários para Hemocentros inativos' backgroundColor={'#F9F9F9'} color={'#000000'}>
-            <Heading as='h5' size='sm'>Hemocentro Ativo?
-              <Switch isDisabled={buttonDisabled} id='hemocentro_status' isChecked={edicaoHemocentro.ativo} onChange={(e: ChangeEvent<HTMLInputElement>) => setEdicaoHemocentro({ ...edicaoHemocentro, ativo: e.target.checked })}/>
-            </Heading>
-            </Tooltip>
           </div>
 
         </div>
 
       )}
       <Button className={styles.botao} isDisabled={buttonDisabled} onClick={handleUpdateHemocentro}>Salvar Alterações</Button>
-      <Heading as='h4' size='md' className={styles.text_space}>Gestão de Usuários</Heading>
-      <Text fontSize='md' className={styles.text_space}>Crie ou delete usuários do sistema</Text>
-      <div>
-        {users.map((users: User) => (
-          <Card key={users._id} variant='outline' className={styles.card}>
-            <CardBody className={styles.card_body}>
-              <div>
-                <MdOutlinePerson size={'24px'} className={styles.icon_style} />
-              </div>
-              <div className={styles.container}>
-                <Heading as='h5' size='sm'>{users.nome}</Heading>
-              </div>
-              <IconButton aria-label='Search database' icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} />
-            </CardBody>
-          </Card>
-
-        ))}
-
-      </div>
-      <Button leftIcon={<MdOutlinePersonAddAlt size={"24px"} />} className={styles.botao}>Adicionar novo usuário</Button>
 
     </Layout>
 

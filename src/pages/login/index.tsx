@@ -1,8 +1,9 @@
+/* eslint-disable react/react-in-jsx-scope */
 import SenhaInput from '../../components/inputSenha'
 import styles from './Login.module.css'
 import { Button, Heading, Input } from "@chakra-ui/react"
 import { fazerLogin } from '../../hooks/mutations/mutationAuth'
-import { useState } from 'react'
+import {useState } from 'react'
 
 
 
@@ -15,14 +16,14 @@ export default function Login() {
     const [mensagemErro, setMensagemErro] = useState('')
 
     const handleLogin = async () => {
-            const resposta = await fazerLogin(inputUsuario, inputSenha)
-            if (resposta === 200) {
-                window.location.href = '/home'
-            } else {
-                setMensagemErro('Credenciais inválidas')
-                console.error('Erro ao fazer login')
-            }
-    }
+        const resposta = await fazerLogin(inputUsuario, inputSenha)
+        if (resposta === 200) {
+            window.location.href = '/home'
+        } else {
+            setMensagemErro('Credenciais inválidas')
+            console.error('Erro ao fazer login')
+        }
+}
 
     return (
         <>

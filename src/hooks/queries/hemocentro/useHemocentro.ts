@@ -3,43 +3,31 @@ import api from "../../../config/api";
 import { Hemocentro } from "../../../interfaces/hemocentro";
 import getToken from "../../../helpers/tokenUtil";
 
-export function useHemocentros() {
-  const [hemocentros, setHemocentros] = useState<Hemocentro[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-
-    setIsLoading(true)
-
-    api.get<Hemocentro[]>("/hemocentro").then((response) => {
-      setHemocentros(response.data)
-
-      setIsLoading(false)
-    })
-  }, [])
-
-  return { hemocentros, isLoading }
-}
-
 
 export function useHemocentro() {
-  const [hemocentro, setHemocentro] = useState<Hemocentro | null>(null)
+  const [hemocentro, setHemocentro] = useState<Hemocentro | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
+    setIsLoading(true)
+    setIsError(false)
 
-
-    api.get<Hemocentro>('/hemocentro/userShow',
-      {
+    api.get<Hemocentro>('/hemocentro/userShow', {
         headers: {
           Authorization: getToken()
         }
-      }).then((response) => {
-        setHemocentro(response.data)
-
       })
+      .then((response) => {
+        setHemocentro(response.data)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        setIsLoading(false)
+        setIsError(true)
+        console.error('Error fetching hemocentro data:', error)
+      })
+  }, [])
 
-      console.log(getToken())
-  })
-
-  return { hemocentro }
+  return { hemocentro, isLoading, isError };
 }

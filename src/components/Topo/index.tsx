@@ -7,6 +7,7 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react'
+import React from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -19,7 +20,7 @@ import styles from './Topo.module.css'
 const Links = [
   { href: '/home', texto: 'Home' },
   { href: '/cadastro', texto: 'Dados Cadastrais' },
-  { href: '/contato', texto: 'Ver Agendamentos' },
+  { href: '/agendamentos', texto: 'Ver Agendamentos' },
   { href: '/calendario', texto: 'Gerir Calendário' },
   { href: `/formulario`, texto: 'Gerir Formulários' },
 ]
@@ -77,9 +78,9 @@ export default function Topo() {
             <DrawerHeader bgColor={'#E31515'} />
 
             <DrawerBody bgColor={'#E31515'} color={'#FFF4F4'}>
-              {Links.map((link) => (
-                <Link to={link.href}>
-                  <NavLink key={link.texto}>{link.texto}</NavLink>
+              {Links.map((link, index) => ( // Assuming 'index' is unique and stable
+                <Link key={index} to={link.href}>
+                  <NavLink>{link.texto}</NavLink>
                 </Link>
               ))}
             </DrawerBody>

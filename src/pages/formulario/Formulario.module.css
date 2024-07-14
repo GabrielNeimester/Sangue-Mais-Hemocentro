@@ -1,32 +1,53 @@
-.text_space{
-    margin-left: 32px;
-    margin-bottom: 8px;
-    margin-top: 16px;
-}
-
-.container_questao{
-    margin: 32px;
+.card {
     border: solid 0.2px #CACACA;
     padding: 16px;
     border-radius: 8px;
+    margin: 8px 32px 8px 16px;
+
 }
 
-.container_questao h4{
-    margin-bottom: 16px;
+.card_container{
+    margin-bottom: 32px;
 }
 
-
-.container_opcao{
+.card_header{
     display: flex;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.container_opcao input{
+.skeleton div{
+    margin: 8px 32px 8px 16px;
+    height: 50px;
+}
+
+.titulo{
+    margin: 32px 32px 32px 16px;
+}
+
+.icon_button{
+    padding: 8px;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
     margin-left: 16px;
-    width: 50%;
 }
 
-.container_questao button{
-    margin-bottom: 16px;
+.radio_group{
+    margin: 8px 32px 8px 16px;
+    display: flex;
+}
+
+p {
+    font-size: 18px;
+}
+.radio_button{
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+}
+.radio_button_card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
