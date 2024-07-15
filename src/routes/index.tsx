@@ -6,6 +6,7 @@ import Formulario from "../pages/formulario"
 import React from "react"
 import Calendario from "../pages/calendario"
 import Agendamentos from "../pages/agendamento"
+import HoraPagina from "../pages/horarios"
 
 
 
@@ -33,6 +34,10 @@ const routes = createBrowserRouter([
   {
     path:"/agendamentos",
     element: <Agendamentos/>
+  },
+  {
+    path:"/calendario/:dataId",
+    element: <HoraPagina/>
   }
 ])
 

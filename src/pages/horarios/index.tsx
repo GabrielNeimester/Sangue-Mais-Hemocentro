@@ -1,48 +1,52 @@
 import React, { useState } from 'react'
 import Layout from '../../components/Layout'
-import { useData } from '../../hooks/queries/data/useData'
-import { Data } from '../../interfaces/data'
-import { Button, FormControl, FormErrorMessage, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import styles from '../calendario/Calendario.module.css'
-import { MdDeleteOutline, MdOutlineEdit, MdCalendarMonth } from "react-icons/md"
+import { Button, FormControl, FormErrorMessage, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
+import styles from "../horarios/Horarios.module.css"
 import Erro from '../../components/Erro'
-import { useDeleteData, useSalvarData } from '../../hooks/mutations/data/mutationData'
+import {  MdOutlineHistory, MdDeleteOutline} from 'react-icons/md'
+import { useParams } from 'react-router-dom'
+import { useHora } from '../../hooks/queries/hora/useHora'
+import { Hora } from '../../interfaces/hora'
+import { useDeleteHora, useSalvarHora } from '../../hooks/mutations/hora/mutationHora'
 
-export default function Calendario() {
+export default function HoraPagina() {
+    const { dataId } = useParams<{ dataId: string }>()
+
+    const { hora, isLoading, isError, refetch } = useHora(String(dataId))
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-
-    const { data, isLoading, isError, refetch } = useData()
-    const [novaData, setNovaData] = useState('')
-    const [error, setError] = useState('')
+    
+    const [novaHora, setNovaHora] = useState('')
 
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [showErrorModal, setShowErrorModal] = useState(false)
     const [mensagemErro, setMensagemErro] = useState('')
     const [mensagemSucesso, setMensagemSucesso] = useState('')
+    const [error, setError] = useState('')
 
 
-    const mutate = useSalvarData()
+    const mutate = useSalvarHora()
 
-    const  mutateDelete = useDeleteData()
+    const mutateDelete = useDeleteHora()
 
     const handleSave = async () => {
-        if (!novaData) {
-            setError('Por favor informe uma data');
+        if (!novaHora || !novaHora.trim()) {
+            setError('Por favor informe um horário');
             return
-        }
+       }
         try {
-            mutate.mutateAsync({ data: novaData })
+            await mutate.mutateAsync({     
+                horario: novaHora,
+                dataId: String(dataId) })
             onClose()
-            setMensagemSucesso("A nova data foi salva com sucesso.")
+            setMensagemSucesso("Novo horário salvo com sucesso!")
             setShowSuccessModal(true)
 
         } catch (error) {
             onClose()
-            setMensagemErro("Ocorreu um erro ao tentar salvar a nova data. Por favor, tente novamente mais tarde.")
+            setMensagemErro("Ocorreu um erro ao tentar salvar o novo horário. Por favor, tente novamente mais tarde.")
             setShowErrorModal(true)
         }
     }
@@ -62,7 +66,7 @@ export default function Calendario() {
         refetch()
     }
 
-    const handleDeleteData = async (id: string) => {
+    const handleDeleteHora = async (id: string) => {
         try {
             await mutateDelete.mutateAsync(id)
             onClose()
@@ -73,14 +77,14 @@ export default function Calendario() {
             onClose()
             setMensagemErro("Ocorreu um erro ao deletar a data. Por favor, tente novamente mais tarde.")
             setShowErrorModal(true)
-            
+
         }
-      }
+    }
 
 
     return (
         <Layout>
-            <Heading as='h3' size='lg' className={styles.titulo}>Gerir Calendário</Heading>
+            <Heading as='h3' size='lg' className={styles.titulo}>Horários Cadastrados</Heading>
             <div>
                 {isLoading && (
                     <Stack className={styles.skeleton}>
@@ -95,27 +99,24 @@ export default function Calendario() {
                 {isError && (
                     <Erro></Erro>
                 )}
-                {!isLoading && !isError && data && (
+                {!isLoading && !isError && hora && (
                     <div className={styles.card_container}>
-                        {data.map((data: Data) => (
-                            <div key={data._id} className={styles.card}>
+                        {hora.map((hora: Hora) => (
+                            <div key={hora._id} className={styles.card}>
                                 <div className={styles.card_content}>
-                                    <MdCalendarMonth color='E31515' size={'48px'} />
-                                    <div className={styles.agendamento}>
-                                        <Heading as='h5' size='sm'>Agendamento</Heading>
-                                        <p>{data.data}</p>
+                                < MdOutlineHistory color='E31515' size={'48px'} />
+                                    <div className={styles.horario}>
+                                        <Heading as='h5' size='sm'>Horário</Heading>
+                                        <p>{hora.horario}</p>
                                     </div>
                                 </div>
                                 <div>
 
-                                    <IconButton icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteData(data._id) }}/>
-                                    <Link to={`/calendario/${data._id}`}>
-                                    <IconButton icon={<MdOutlineEdit size={'24px'} />} className={styles.icon_button} aria-label='Editar' />
-                                    </Link>
+                                    <IconButton icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} aria-label='Deletar'  onClick={() => { handleDeleteHora(hora._id) }} />
                                 </div>
                             </div>
                         ))}
-                        <Button onClick={onOpen} className={styles.botao_adicionar}>Adicionar nova Data</Button>
+                        <Button onClick={onOpen} className={styles.botao_adicionar}>Adicionar novo Horário</Button>
                     </div>
                 )}
             </div>
@@ -127,11 +128,11 @@ export default function Calendario() {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Adicionar nova Data</ModalHeader>
+                    <ModalHeader>Adicionar novo Horário</ModalHeader>
                     <ModalCloseButton onClick={handleClose} />
                     <ModalBody >
                         <FormControl isInvalid={!!error}>
-                            <Input placeholder='Selecione uma data' size='md' type='date' onChange={(e) => setNovaData(e.target.value)}
+                            <Input placeholder='Selecione uma data' size='md' type='time' onChange={(e) => setNovaHora(e.target.value)}
                                 required></Input>
                             {error && <FormErrorMessage>{error}</FormErrorMessage>}
                         </FormControl>

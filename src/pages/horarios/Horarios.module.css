@@ -1,0 +1,101 @@
+.titulo{
+    margin: 32px 32px 32px 16px;
+}
+
+.skeleton div{
+    margin: 8px 32px 8px 16px;
+    height: 50px;
+}
+
+.card_header{
+    display: flex;
+    align-items: center;
+    color:  #E31515;
+}
+
+.card{
+    border: solid 0.2px #CACACA;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 8px 32px 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card:hover{
+    box-shadow: 4px 4px 4px #e2e8f0;
+}
+
+.card_content{
+  display: flex;
+}
+
+.horario{
+  margin-left: 16px;
+}
+
+.card_text{
+    display: flex;
+    font-size: 12px;
+    justify-content: space-around;
+
+}
+.card_text_impedimento{
+    margin-left: 32px;
+}
+
+.card_titulo{
+    font-size: 24px;
+
+}
+.card_subtitulo{
+    font-size: 20px;
+}
+
+.icon_button{
+    padding: 8px;
+    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    margin-left: 16px;
+}
+
+.status-liberado {
+    color: #0F1B8D;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+  
+  .status-concluida {
+    color: #0BB931;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .status-cancelada {
+    color: #BC0808;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+  
+  .status-bloqueado {
+    color:#BC0808;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .status-temporario {
+    color:FF9315;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .card_container{
+    margin-bottom: 32px;
+  }
+
+  .botao_adicionar{
+    margin-left: 16px;
+  }
+  
