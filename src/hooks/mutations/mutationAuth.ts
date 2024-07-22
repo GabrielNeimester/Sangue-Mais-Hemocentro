@@ -8,9 +8,8 @@ export const fazerLogin = async (nome: string, senha: string) => {
                 senha
             })
 
-            const { token, expiresAt, refreshToken } = response.data;
-
-            console.log(token, expiresAt, refreshToken)
+            const { token} = response.data
+            
             document.cookie = `token=${encodeURIComponent(token)}`
 
             return response.status; // Retorna o código de resposta da API

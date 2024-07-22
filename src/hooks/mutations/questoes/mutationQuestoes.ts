@@ -1,26 +1,67 @@
-import { useMutation, useQueryClient } from "react-query"
 import api from "../../../config/api"
 import getToken from "../../../helpers/tokenUtil"
-import { Questao } from "../../../interfaces/questao"
+import { useMutation, useQueryClient } from 'react-query'
 
 
-
-
-const createQuestao = (questao: Questao) => {
-  return api.post<Questao>("/questao", questao, {
-    headers: {
-      Authorization: getToken()
-    }
-  });
+interface NovaQuestao {
+    descricao: string
 }
 
-export const useCreateQuestao = () => {
+interface EditarQuestao{
+  id:string
+  descricao: string
+}
+
+const salvarQuestao = (questao:NovaQuestao) => api.post("/questoes/", questao,{
+    headers: {
+        Authorization: getToken()
+      }
+      
+})
+
+export const useSalvarQuestao = () => {
   const queryClient = useQueryClient()
 
-  return useMutation("createQuestao", (questao: Questao) => createQuestao(questao), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('questao')
-    }
-  })
+  return useMutation((questao:NovaQuestao) => salvarQuestao(questao),
+    {
+        onSuccess: () => {
+            queryClient.invalidateQueries('data')
+        }
+    })
 }
 
+const deleteQuestao = async (id: string) => api.delete(`/questoes/${id}`, {
+        headers: {
+            Authorization: getToken()
+        }
+    })
+
+
+export const useDeleteQuestao = () => {
+    const queryClient = useQueryClient()
+  
+    return useMutation((id: string) => deleteQuestao(id), {
+      onSuccess: () => {
+        queryClient.invalidateQueries('data')
+      }
+    })
+  }
+
+
+const updateQuestao = (questao:EditarQuestao) => api.put(`/questoes/${questao.id}`, {descricao: questao.descricao}, {
+  headers: {
+      Authorization: getToken()
+  }
+})
+
+
+export const useUpdateQuestao = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation((questao:EditarQuestao) => updateQuestao(questao),
+    {
+        onSuccess: () => {
+            queryClient.invalidateQueries('questoes')
+        }
+    })
+}
