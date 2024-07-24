@@ -1,5 +1,4 @@
 export interface Agendamento{
-    map(arg0: (agendamento: Agendamento) => import("react/jsx-runtime").JSX.Element): import("react").ReactNode
     _id: string
     hemocentroId: string
     nomeCompleto: string

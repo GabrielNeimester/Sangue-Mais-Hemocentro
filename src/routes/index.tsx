@@ -7,6 +7,7 @@ import React from "react"
 import Calendario from "../pages/calendario"
 import Agendamentos from "../pages/agendamento"
 import HoraPagina from "../pages/horarios"
+import DetalhesAgendamento from "../pages/detalhesAgendamento"
 
 
 
@@ -38,6 +39,10 @@ const routes = createBrowserRouter([
   {
     path:"/calendario/:dataId",
     element: <HoraPagina/>
+  },
+  {
+    path:"/detalheAgendamento/:agendamentoId",
+    element: <DetalhesAgendamento/>
   }
 ])
 

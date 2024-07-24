@@ -5,7 +5,8 @@ import { Agendamento } from '../../interfaces/agendamento'
 import { Heading, IconButton, Skeleton, Stack } from '@chakra-ui/react'
 import styles from "../agendamento/Agendamento.module.css"
 import Erro from '../../components/Erro'
-import { MdOutlineEdit, MdOutlineViewList } from 'react-icons/md'
+import { MdOutlineEdit, MdOutlineViewList, MdOutlineVisibility } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 export default function Agendamentos() {
 
@@ -43,17 +44,19 @@ export default function Agendamentos() {
                                     <p className={styles.card_subtitulo}><strong>Doador: {agendamento.nomeCompleto}</strong> </p>
                                     <p className={styles.text}>Data do Agendamento: {agendamento.dataAgendamento}</p>
                                     <div className={styles.card_text}>
-                                            <p>Status da doação:</p>
-                                            <p className={` ${agendamento.statusDoacao === 'liberado' ? styles['status-liberado'] : agendamento.statusDoacao === 'concluida' ? styles['status-concluida'] : agendamento.statusDoacao === 'bloqueado' ? styles['status-bloqueado'] : agendamento.statusDoacao === 'cancelada' ? styles['status-cancelada'] : ''}`}>{agendamento.statusDoacao}</p>
-                                            <p className={styles.card_text_impedimento}>Impedimento:</p>
-                                            <p className={` ${agendamento.impedimento === 'nenhum' ? styles['status-concluida'] : agendamento.impedimento === 'definitivo' ? styles['status-bloqueado'] : agendamento.impedimento === 'temporario' ? styles['status-temporario'] : ''}`}>{agendamento.impedimento}</p>
+                                        <p>Status da doação:</p>
+                                        <p className={` ${agendamento.statusDoacao === 'liberado' ? styles['status-liberado'] : agendamento.statusDoacao === 'concluida' ? styles['status-concluida'] : agendamento.statusDoacao === 'bloqueado' ? styles['status-bloqueado'] : agendamento.statusDoacao === 'cancelada' ? styles['status-cancelada'] : ''}`}>{agendamento.statusDoacao}</p>
+                                        <p className={styles.card_text_impedimento}>Impedimento:</p>
+                                        <p className={` ${agendamento.impedimento === 'nenhum' ? styles['status-concluida'] : agendamento.impedimento === 'definitivo' ? styles['status-bloqueado'] : agendamento.impedimento === 'temporario' ? styles['status-temporario'] : ''}`}>{agendamento.impedimento}</p>
                                     </div>
                                     <div className={styles.card_text}>
 
                                     </div>
                                     <p>ID {agendamento._id}</p>
                                 </div>
-                                <IconButton icon={<MdOutlineEdit size={'32px'} />} className={styles.icon_button} aria-label='Editar' />
+                                <Link to={`/detalheAgendamento/${agendamento._id}`}>
+                                    <IconButton                                        icon={agendamento.statusDoacao === 'liberado' ? <MdOutlineEdit size={'24px'} /> : <MdOutlineVisibility size={'24px'} />}className={styles.icon_button} aria-label='Editar' />
+                                </Link>
                             </div>
                         ))}
                     </div>
