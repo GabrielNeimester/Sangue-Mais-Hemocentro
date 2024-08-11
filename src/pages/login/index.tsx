@@ -1,7 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import SenhaInput from '../../components/inputSenha'
 import styles from './Login.module.css'
-import { Button, Heading, Input } from "@chakra-ui/react"
+import { Heading, Input } from "@chakra-ui/react"
 import { fazerLogin } from '../../hooks/mutations/mutationAuth'
 import {useState } from 'react'
 
@@ -34,7 +34,7 @@ export default function Login() {
                     <Input background={"#FFFFFF"} placeholder='Digite seu usuário' onChange={(e) => setInputUsuario(e.target.value)}></Input>
                     <Heading as='h4' size='md'>Senha</Heading>
                     <SenhaInput onChange={(e) => setInputSenha(e.target.value)}></SenhaInput>
-                    <Button className='botao_primario' onClick={handleLogin}>Login</Button>
+                    <button className={styles.primary_button} onClick={handleLogin}>Login</button>
                     {mensagemErro && <p style={{ color: 'red' }}>{mensagemErro}</p>}
                 </div>
             </div>

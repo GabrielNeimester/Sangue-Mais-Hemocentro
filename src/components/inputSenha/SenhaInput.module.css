@@ -1,0 +1,16 @@
+.primary_button{
+    background-color: #E31515;
+    color: #FFFFFF;
+    padding: 4px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-right: 16px;
+}
+
+.primary_button:hover{
+    background-color: #ed3e3e;
+}
+
+.primary_button:active{
+    background-color: #b41111;
+}

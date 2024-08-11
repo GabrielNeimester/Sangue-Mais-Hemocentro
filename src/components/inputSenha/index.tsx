@@ -1,5 +1,6 @@
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react"
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/react"
 import React, { ChangeEventHandler } from "react"
+import styles from './SenhaInput.module.css'
 
 interface Props{
   onChange: ChangeEventHandler<HTMLInputElement>;
@@ -18,10 +19,10 @@ export default function SenhaInput({onChange}:Props) {
           background={"#FFFFFF"} placeholder='Digite sua senha'
           onChange={onChange}
         />
-        <InputRightElement width='4.5rem'>
-          <Button h='1.75rem' size='sm' onClick={handleClick}>
+        <InputRightElement>
+          <button className={styles.primary_button} onClick={handleClick}>
             {show ? 'Hide' : 'Show'}
-          </Button>
+          </button>
         </InputRightElement>
       </InputGroup>
     )
