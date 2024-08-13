@@ -19,7 +19,7 @@ export default function DetalhesAgendamento() {
             <Heading as='h3' size='lg' className={styles.titulo}>Detalhes da doação</Heading>
             <div>
                 {isLoading && (
-                    <Stack>
+                    <Stack className={styles.skeleton}>
                         <Skeleton height="20px" />
                         <Skeleton height="20px" />
                         <Skeleton height="20px" />

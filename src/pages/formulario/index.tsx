@@ -6,7 +6,7 @@ import { useOpcao } from '../../hooks/queries/opcoes/useOpcoes'
 import { Opcao } from '../../interfaces/opcao'
 import styles from '../formulario/Formulario.module.css'
 import { Button, FormControl, FormErrorMessage, FormLabel, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
-import { MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
+import { MdCancel, MdCheckCircle, MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
 import Erro from '../../components/Erro'
 import { useDeleteOpcao, useSalvarOpcao } from '../../hooks/mutations/opcoes/mutationOpcoes'
 import { useDeleteQuestao, useSalvarQuestao, useUpdateQuestao } from '../../hooks/mutations/questoes/mutationQuestoes'
@@ -103,7 +103,7 @@ export default function Formulario() {
         setError('')
         onClose()
     }
-    const handleOpen = (descricao: string, id:string) => {
+    const handleOpen = (descricao: string, id: string) => {
         setIdQuestao(id)
         setEditarQuestao(descricao)
         onOpen()
@@ -133,8 +133,9 @@ export default function Formulario() {
                                 <div className={styles.card_header}>
                                     <Heading as='h4' size='md'>{questao.descricao}</Heading>
                                     <div>
-                                        <IconButton icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteQuestao(questao._id) }}/>
-                                        <IconButton icon={<MdOutlineEdit size={'24px'} />} className={styles.icon_button} aria-label='Editar' onClick={() => handleOpen(questao.descricao, questao._id)} />
+                                        <button className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteQuestao(questao._id) }}> <MdDeleteOutline size={'24px'} /></button>
+                                        <button className={styles.icon_button} aria-label='Editar' onClick={() => handleOpen(questao.descricao, questao._id)}><MdOutlineEdit size={'24px'} /></button>
+
                                     </div>
                                 </div>
                                 <Opcoes questaoId={questao._id} refetchQuestoes={refetchQuestoes} />
@@ -143,7 +144,10 @@ export default function Formulario() {
                     </div>
 
                 )}
-                    <Button onClick={handleSaveModalOpen}>Adicionar questão</Button>
+                <div className={styles.botao_adicionar}>
+                    <button onClick={handleSaveModalOpen} className={styles.primary_button}>Adicionar questão</button >
+                </div>
+
             </div>
             <Modal
                 initialFocusRef={initialRef}
@@ -198,30 +202,37 @@ export default function Formulario() {
             <Modal isOpen={showSuccessModal} onClose={handleSuccessModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Sucesso!</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Sucesso!</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody className={styles.modal_body}>
+                        <MdCheckCircle size={'80px'} color='#4BB543' />
                         {mensagemSucesso}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" onClick={handleSuccessModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button className={styles.primary_button} onClick={handleSuccessModalClose}>
+                                Continuar
+                            </button>
+                        </div>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <Modal isOpen={showErrorModal} onClose={handleErrorModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Erro</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Erro</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody className={styles.modal_body}>
+                        <MdCancel size={'80px'} color='#E31515' />
                         {mensagemErro}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="red" onClick={handleErrorModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button onClick={handleErrorModalClose} className={styles.primary_button}>
+                                Continuar
+                            </button>
+                        </div>
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -376,7 +387,7 @@ export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) =>
                                             <p>{opcao.descricao}</p>
                                             <p><strong>Impedimento:</strong> {opcao.impedimento} <strong>Dias Impedidos:</strong> {opcao.diasImpedidos}</p>
                                         </div>
-                                        <IconButton icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteOpcao(opcao._id) }} />
+                                        <button className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteOpcao(opcao._id) }}> <MdDeleteOutline size={'24px'} /></button>
 
                                     </div>
                                 </Radio>
@@ -386,34 +397,43 @@ export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) =>
                 </RadioGroup>
 
             )}
-            <Button onClick={() => handleAdicionarOpcao(questaoId)}>Adicionar nova Opção</Button>
+            <div >
+                <button onClick={() => handleAdicionarOpcao(questaoId)} className={styles.primary_button}>Adicionar nova Opção</button>
+            </div>
             <Modal isOpen={showSuccessModal} onClose={handleSuccessModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Sucesso!</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Sucesso!</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody className={styles.modal_body}>
+                        <MdCheckCircle size={'80px'} color='#4BB543' />
                         {mensagemSucesso}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" onClick={handleSuccessModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button className={styles.primary_button} onClick={handleSuccessModalClose}>
+                                Continuar
+                            </button>
+                        </div>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <Modal isOpen={showErrorModal} onClose={handleErrorModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Erro</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Erro</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody className={styles.modal_body}>
+                        <MdCancel size={'80px'} color='#E31515' />
                         {mensagemErro}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="red" onClick={handleErrorModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button onClick={handleErrorModalClose} className={styles.primary_button}>
+                                Continuar
+                            </button>
+                        </div>
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>

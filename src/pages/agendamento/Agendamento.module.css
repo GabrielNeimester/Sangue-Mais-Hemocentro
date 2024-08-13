@@ -46,11 +46,20 @@
 }
 
 .icon_button{
-    padding: 8px;
-    border-radius: 8px;
-    width: 48px;
-    height: 48px;
-    margin-left: 16px;
+  background-color: #E31515;
+  color: #FFFFFF;
+  font-weight: bold;
+  padding: 8px;
+  border-radius: 8px;
+  margin-left: 16px;
+}
+
+.icon_button:hover{
+  background-color: #ed3e3e;
+}
+
+.icon_button:active{
+  background-color: #b41111;
 }
 
 .status-liberado {

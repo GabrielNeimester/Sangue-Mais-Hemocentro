@@ -3,7 +3,7 @@ import Layout from '../../components/Layout'
 import { Button, FormControl, FormErrorMessage, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
 import styles from "../horarios/Horarios.module.css"
 import Erro from '../../components/Erro'
-import {  MdOutlineHistory, MdDeleteOutline} from 'react-icons/md'
+import { MdOutlineHistory, MdDeleteOutline, MdCancel, MdCheckCircle } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
 import { useHora } from '../../hooks/queries/hora/useHora'
 import { Hora } from '../../interfaces/hora'
@@ -17,7 +17,7 @@ export default function HoraPagina() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
-    
+
     const [novaHora, setNovaHora] = useState('')
 
     const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -35,11 +35,12 @@ export default function HoraPagina() {
         if (!novaHora || !novaHora.trim()) {
             setError('Por favor informe um horário');
             return
-       }
+        }
         try {
-            await mutate.mutateAsync({     
+            await mutate.mutateAsync({
                 horario: novaHora,
-                dataId: String(dataId) })
+                dataId: String(dataId)
+            })
             onClose()
             setMensagemSucesso("Novo horário salvo com sucesso!")
             setShowSuccessModal(true)
@@ -104,19 +105,20 @@ export default function HoraPagina() {
                         {hora.map((hora: Hora) => (
                             <div key={hora._id} className={styles.card}>
                                 <div className={styles.card_content}>
-                                < MdOutlineHistory color='E31515' size={'48px'} />
+                                    < MdOutlineHistory color='E31515' size={'48px'} />
                                     <div className={styles.horario}>
                                         <Heading as='h5' size='sm'>Horário</Heading>
                                         <p>{hora.horario}</p>
                                     </div>
                                 </div>
-                                <div>
 
-                                    <IconButton icon={<MdDeleteOutline size={'24px'} />} className={styles.icon_button} aria-label='Deletar'  onClick={() => { handleDeleteHora(hora._id) }} />
-                                </div>
+                                <button className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteHora(hora._id) }}> <MdDeleteOutline size={'24px'} /></button>
+
                             </div>
                         ))}
-                        <Button onClick={onOpen} className={styles.botao_adicionar}>Adicionar novo Horário</Button>
+                        <div className={styles.botao_adicionar}>
+                            <button onClick={onOpen} className={styles.primary_button}>Adicionar nova Data</button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -128,50 +130,60 @@ export default function HoraPagina() {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Adicionar novo Horário</ModalHeader>
+                    <ModalHeader><h1 className={styles.modal_header_text}>Adicionar um novo Horário</h1></ModalHeader>
                     <ModalCloseButton onClick={handleClose} />
-                    <ModalBody >
+                    <ModalBody className={styles.modal_body} >
                         <FormControl isInvalid={!!error}>
+                            <p className={styles.modal_text_details}>Informe o horário:</p>
                             <Input placeholder='Selecione uma data' size='md' type='time' onChange={(e) => setNovaHora(e.target.value)}
                                 required></Input>
                             {error && <FormErrorMessage>{error}</FormErrorMessage>}
                         </FormControl>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={handleSave}>
-                            Salvar
-                        </Button>
-                        <Button onClick={handleClose}>Cancelar</Button>
+                        <div className={styles.modal_footer}>
+                            <button className={styles.primary_button} onClick={handleSave}>
+                                Salvar
+                            </button>
+                            <button onClick={handleClose} className={styles.secondary_button}>Cancelar</button>
+                        </div>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <Modal isOpen={showSuccessModal} onClose={handleSuccessModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Sucesso!</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Sucesso!</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
-                       {mensagemSucesso}
+                    <ModalBody className={styles.modal_body}>
+                        <MdCheckCircle size={'80px'} color='#4BB543' />
+                        {mensagemSucesso}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="blue" onClick={handleSuccessModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button className={styles.primary_button} onClick={handleSuccessModalClose}>
+                                Continuar
+                            </button>
+                        </div>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
             <Modal isOpen={showErrorModal} onClose={handleErrorModalClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Erro</ModalHeader>
+                    <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Erro</h1></ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
-                       {mensagemErro}
+                    <ModalBody className={styles.modal_body}>
+                        <MdCancel size={'80px'} color='#E31515' />
+                        {mensagemErro}
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="red" onClick={handleErrorModalClose}>
-                            Continuar
-                        </Button>
+                        <div className={styles.modal_footer}>
+                            <button onClick={handleErrorModalClose} className={styles.primary_button}>
+                                Continuar
+                            </button>
+                        </div>
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>

@@ -55,7 +55,7 @@ export default function Agendamentos() {
                                     <p>ID {agendamento._id}</p>
                                 </div>
                                 <Link to={`/detalheAgendamento/${agendamento._id}`}>
-                                    <IconButton                                        icon={agendamento.statusDoacao === 'liberado' ? <MdOutlineEdit size={'24px'} /> : <MdOutlineVisibility size={'24px'} />}className={styles.icon_button} aria-label='Editar' />
+                                    <button className={styles.icon_button} aria-label='Editar' > {agendamento.statusDoacao === 'liberado' ? <MdOutlineEdit size={'24px'} /> : <MdOutlineVisibility size={'24px'} />}</button>
                                 </Link>
                             </div>
                         ))}
