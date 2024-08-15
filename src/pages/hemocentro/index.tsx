@@ -1,4 +1,4 @@
-import { Button, Heading, IconButton, Input, Select} from "@chakra-ui/react";
+import { Button, Heading, IconButton, Input, Select } from "@chakra-ui/react";
 import Layout from "../../components/Layout";
 import { useHemocentro } from "../../hooks/queries/hemocentro/useHemocentro";
 import { MdOutlineEdit } from "react-icons/md";
@@ -26,7 +26,7 @@ export default function HemocentroPagina() {
     email: '',
     ativo: false
   });
-  
+
   useEffect(() => {
     if (hemocentro) {
       setEdicaoHemocentro(hemocentro)
@@ -80,33 +80,33 @@ export default function HemocentroPagina() {
         isOpen={modalOpen}
         acaoBotao={handleCloseModal}
         texto={modalContent?.texto || ""}
-        onClose={handleCloseModal} icone={modalContent?.icone}      />
+        onClose={handleCloseModal} icone={modalContent?.icone} />
       <div className={styles.title_container}>
         <Heading as='h3' size='lg'>Dados Cadastrais do Hemocentro</Heading>
-        <IconButton aria-label='Search database' icon={<MdOutlineEdit size={'24px'} />} className={styles.icon_button} onClick={handleButtonDisabled} />
+        <button className={styles.icon_button} onClick={handleButtonDisabled}><MdOutlineEdit size={'24px'} /></button>
       </div>
       {hemocentro && (
         <div>
           <div className={styles.container_dados_hemocentro}>
             <Heading as='h5' size='sm'>Nome
-              <Input required={true} value={edicaoHemocentro.nome} isDisabled={buttonDisabled} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, nome: e.target.value })}></Input>
+              <Input borderColor={'#000000'} required={true} value={edicaoHemocentro.nome} isDisabled={buttonDisabled} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, nome: e.target.value })}></Input>
             </Heading>
             <Heading as='h5' size='sm'>Bairro
-              <Input isDisabled={buttonDisabled} value={edicaoHemocentro.bairro} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, bairro: e.target.value })}></Input>
+              <Input borderColor={'#000000'} isDisabled={buttonDisabled} value={edicaoHemocentro.bairro} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, bairro: e.target.value })}></Input>
             </Heading>
             <Heading as='h5' size='sm'>Cidade
-              <Input isDisabled={buttonDisabled} value={edicaoHemocentro.cidade} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cidade: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cidade} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cidade: e.target.value })}></Input>
             </Heading>
             <Heading as='h5' size='sm'>CNPJ
-              <Input isDisabled={buttonDisabled} value={edicaoHemocentro.cnpj} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cnpj: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cnpj} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cnpj: e.target.value })}></Input>
             </Heading>
             <Heading as='h5' size='sm'>E-mail
-              <Input isDisabled={buttonDisabled} value={edicaoHemocentro.email} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, email: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.email} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, email: e.target.value })}></Input>
             </Heading>
           </div>
           <div className={styles.container_estado}>
             <Heading as='h5' size='sm'>Estado
-              <Select value={edicaoHemocentro.estado} isDisabled={buttonDisabled} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, estado: e.target.value })}>
+              <Select value={edicaoHemocentro.estado} borderColor={'#000000'} isDisabled={buttonDisabled} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, estado: e.target.value })}>
                 <option value='AC'>AC</option>
                 <option value='AL'>AL</option>
                 <option value='AP'>AP</option>
@@ -137,14 +137,17 @@ export default function HemocentroPagina() {
               </Select>
             </Heading>
             <Heading as='h5' size='sm'>Telefone
-              <Input isDisabled={buttonDisabled} value={edicaoHemocentro.telefone} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, telefone: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.telefone} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, telefone: e.target.value })}></Input>
             </Heading>
           </div>
 
         </div>
 
       )}
-      <Button className={styles.botao} isDisabled={buttonDisabled} onClick={handleUpdateHemocentro}>Salvar Alterações</Button>
+      <div className={styles.botao_adicionar}>
+        <button className={styles.primary_button} disabled={buttonDisabled} onClick={handleUpdateHemocentro}>Salvar Alterações</button>
+      </div>
+
 
     </Layout>
 

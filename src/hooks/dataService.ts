@@ -5,7 +5,6 @@ import axios, { AxiosError } from 'axios'
 import { Data, ListarData, SalvarData } from "../interfaces/data"
 
 
-
 interface ErrorResponse {
     error?: string
     mensagem?: string
