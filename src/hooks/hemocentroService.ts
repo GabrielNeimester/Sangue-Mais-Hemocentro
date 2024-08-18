@@ -3,23 +3,9 @@ import api from "../config/api";
 import { Hemocentro } from "../interfaces/hemocentro";
 import getToken from "../helpers/tokenUtil"
 import axios, { AxiosError } from "axios";
+import { ErrorResponse, SaveResult } from "../interfaces/responses";
 
-interface ErrorResponse {
-    error?: string
-    mensagem?: string
-}
-
-interface SaveResult {
-    sucesso?: string
-    erro?: string
-}
-
-interface DeleteResult {
-    sucesso?: string
-    erro?: string
-}
-
-export const salvarData = async (hemocentro: Hemocentro): Promise<SaveResult> => {
+export const atualizarHemocentro = async (hemocentro: Hemocentro): Promise<SaveResult> => {
     try {
         const response = await api.put<Hemocentro>(`/hemocentro/${hemocentro._id}`, hemocentro, {
             headers: {
@@ -71,7 +57,7 @@ export function useHemocentro() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
 
-  useEffect(() => {
+  const fetchHemocentro = () =>{
     setIsLoading(true)
     setIsError(false)
 
@@ -89,7 +75,14 @@ export function useHemocentro() {
         setIsError(true)
         console.error('Error fetching hemocentro data:', error)
       })
+  }
+  useEffect(() => {
+    fetchHemocentro()
   }, [])
+  
+  const refetch = () => {
+    fetchHemocentro()
+  }
 
-  return { hemocentro, isLoading, isError };
+  return { hemocentro, isLoading, isError, refetch };
 }

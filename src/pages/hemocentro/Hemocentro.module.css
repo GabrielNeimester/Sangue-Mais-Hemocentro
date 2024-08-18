@@ -2,13 +2,13 @@
     margin: 8px 32px 8px 16px;
 }
 
-.text_space{
+.text_space {
     margin-left: 16px;
     margin-bottom: 8px;
     margin-top: 16px;
 }
 
-.card:hover{
+.card:hover {
     box-shadow: 4px 4px 4px #e2e8f0;
 }
 
@@ -23,35 +23,35 @@
     flex-shrink: 0
 }
 
-.title_container{
+.title_container {
     display: flex;
     margin: 16px;
 }
 
-.container_estado{
+.container_estado {
     display: flex;
     align-items: center;
 }
 
-.container_dados_hemocentro h5{
+.container_dados_hemocentro h5 {
     margin: 8px 32px 8px 16px;
 }
 
-.container_estado h5{
+.container_estado h5 {
     margin-left: 16px;
 }
 
-.container_estado h5 label{
+.container_estado h5 label {
     margin-left: 16px;
 }
 
 
-.card_body{
+.card_body {
     display: flex;
     align-items: center;
 }
 
-.botao{
+.botao {
     margin: 16px 0px 32px 16px;
 }
 
@@ -63,7 +63,7 @@
     display: inline-block;
 }
 
-.primary_button{
+.primary_button {
     background-color: #E31515;
     color: #FFFFFF;
     padding: 8px 32px 8px 32px;
@@ -71,20 +71,20 @@
     font-weight: bold;
 }
 
-.primary_button:hover{
+.primary_button:hover {
     background-color: #ed3e3e;
 }
 
-.primary_button:active{
+.primary_button:active {
     background-color: #b41111;
 }
 
-.primary_button:disabled{
+.primary_button:disabled {
     background-color: #CACACA;
     cursor: not-allowed;
 }
 
-.secondary_button{
+.secondary_button {
     color: #E31515;
     padding: 8px 32px 8px 32px;
     border-radius: 8px;
@@ -92,11 +92,16 @@
     border: solid 1px #E31515;
 }
 
-.secondary_button:hover{
+.skeleton div{
+    margin: 8px 32px 8px 16px;
+    height: 50px;
+}
+
+.secondary_button:hover {
     box-shadow: 2px 2px 4px #CACACA;
 }
 
-.icon_button{
+.icon_button {
     background-color: #E31515;
     color: #FFFFFF;
     font-weight: bold;
@@ -105,16 +110,53 @@
     margin-left: 16px;
 }
 
-.icon_button:hover{
+.icon_button:hover {
     background-color: #ed3e3e;
 }
 
-.icon_button:active{
+.icon_button:active {
     background-color: #b41111;
 }
 
-.botao_adicionar{
+.botao_adicionar {
     margin-left: 16px;
     margin-bottom: 32px;
     margin-top: 16px;
+}
+
+.modal_header {
+    align-self: center;
+}
+
+.modal_header_text {
+    color: #E31515;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.modal_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+
+
+.modal_body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_text_details {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.modal_footer button {
+    display: flex;
+    justify-content: center;
+    margin: 4px;
 }

@@ -1,20 +1,54 @@
-import { Button, Heading, IconButton, Input, Select } from "@chakra-ui/react";
-import Layout from "../../components/Layout";
-import { useHemocentro } from "../../hooks/queries/hemocentro/useHemocentro";
-import { MdOutlineEdit } from "react-icons/md";
+import { Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Skeleton, Stack, useDisclosure } from "@chakra-ui/react"
+import Layout from "../../components/Layout"
+import { atualizarHemocentro, useHemocentro } from "../../hooks/hemocentroService"
+import { MdCancel, MdCheckCircle, MdOutlineEdit } from "react-icons/md"
 import styles from "../hemocentro/Hemocentro.module.css"
-import React, { ReactNode, useEffect, useState } from "react";
-import { Hemocentro } from "../../interfaces/hemocentro";
-import { useUpdateHemocentro } from "../../hooks/mutations/hemocentro/mutationHemocentro";
-import ModalCustomizado from "../../components/ModalResultado";
-import { MdCheckCircleOutline, MdOutlineCancel } from "react-icons/md"
+import React, { useEffect, useState } from "react"
+import { Hemocentro } from "../../interfaces/hemocentro"
+import Erro from "../../components/Erro"
 
 
 export default function HemocentroPagina() {
 
-  const { hemocentro } = useHemocentro()
+  const { onClose } = useDisclosure()
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showErrorModal, setShowErrorModal] = useState(false)
+  const [mensagemErro, setMensagemErro] = useState('')
+  const [mensagemSucesso, setMensagemSucesso] = useState('')
+  const { hemocentro, isLoading, isError, refetch } = useHemocentro()
   const [buttonDisabled, setButtonDisabled] = React.useState(true)
   const handleButtonDisabled = () => setButtonDisabled(!buttonDisabled)
+
+
+
+  const formatarTelefone = (value: string) => {
+    return value
+      .replace(/\D/g, '') 
+      .replace(/^(\d{2})(\d)/g, '($1) $2') 
+      .replace(/(\d{4})(\d)/, '$1-$2')
+      .replace(/(-\d{4})\d+?$/, '$1')
+  }
+  
+  const formatarCNPJ = (value: string) => {
+    return value
+      .replace(/\D/g, '') 
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2') 
+      .replace(/(-\d{2})\d+?$/, '$1')
+  }
+
+  const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valorFormatado = formatarTelefone(e.target.value)
+    setEdicaoHemocentro({ ...edicaoHemocentro, telefone: valorFormatado })
+  }
+  
+  const handleCNPJChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valorFormatado = formatarCNPJ(e.target.value)
+    setEdicaoHemocentro({ ...edicaoHemocentro, cnpj: valorFormatado })
+  }
+
   const [edicaoHemocentro, setEdicaoHemocentro] = useState<Hemocentro>({
     _id: '',
     cnpj: '',
@@ -25,7 +59,7 @@ export default function HemocentroPagina() {
     telefone: '',
     email: '',
     ativo: false
-  });
+  })
 
   useEffect(() => {
     if (hemocentro) {
@@ -34,57 +68,53 @@ export default function HemocentroPagina() {
   }, [hemocentro])
 
 
+  const handleSave = async () => {
 
-  const mutation = useUpdateHemocentro()
+    const result = await atualizarHemocentro(edicaoHemocentro)
 
-  // Estado para controlar a visibilidade do modal
-  const [modalOpen, setModalOpen] = useState(false);
-  // Estado para controlar o conteúdo do modal
-  const [modalContent, setModalContent] = useState<{ titulo: string, subtitulo: string, texto: string, icone: ReactNode } | null>(null);
-
-  const handleUpdateHemocentro = () => {
-    mutation.mutate(edicaoHemocentro, {
-      onSuccess: () => {
-        setModalContent({
-          titulo: "Sucesso",
-          subtitulo: "Alterações salvas com sucesso!",
-          texto: "As alterações de dados do hemocentro foram salvas com sucesso.",
-          icone: <MdCheckCircleOutline size={"80px"} color="#00B712"></MdCheckCircleOutline>
-        });
-        setModalOpen(true);
-      },
-      onError: () => {
-        setModalContent({
-          titulo: "Erro",
-          subtitulo: "Não foi possível salvar alterações",
-          texto: "Por favor verifique se todos os campos foram preenchidos corretamente e tente novamente",
-          icone: <MdOutlineCancel size={"80px"} color="#E31515"></MdOutlineCancel>
-        });
-        setModalOpen(true);
-      }
-    })
+    if (result.sucesso) {
+      onClose()
+      setMensagemSucesso(result.sucesso)
+      setShowSuccessModal(true)
+    }
+    if (result.erro) {
+      onClose()
+      setMensagemErro(result.erro)
+      setShowErrorModal(true)
+    }
   }
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false)
+    refetch()
   }
 
+  const handleErrorModalClose = () => {
+    setShowErrorModal(false)
+    refetch()
+  }
 
 
 
   return (
     <Layout>
-      <ModalCustomizado
-        titulo={modalContent?.titulo || ""}
-        subtitulo={modalContent?.subtitulo || ""}
-        isOpen={modalOpen}
-        acaoBotao={handleCloseModal}
-        texto={modalContent?.texto || ""}
-        onClose={handleCloseModal} icone={modalContent?.icone} />
       <div className={styles.title_container}>
         <Heading as='h3' size='lg'>Dados Cadastrais do Hemocentro</Heading>
         <button className={styles.icon_button} onClick={handleButtonDisabled}><MdOutlineEdit size={'24px'} /></button>
       </div>
+      {isLoading && (
+        <Stack className={styles.skeleton}>
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </Stack>
+      )}
+      {isError && (
+        <Erro></Erro>
+      )}
       {hemocentro && (
         <div>
           <div className={styles.container_dados_hemocentro}>
@@ -98,7 +128,7 @@ export default function HemocentroPagina() {
               <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cidade} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cidade: e.target.value })}></Input>
             </Heading>
             <Heading as='h5' size='sm'>CNPJ
-              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cnpj} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cnpj: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cnpj} onChange={handleCNPJChange}></Input>
             </Heading>
             <Heading as='h5' size='sm'>E-mail
               <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.email} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, email: e.target.value })}></Input>
@@ -137,16 +167,52 @@ export default function HemocentroPagina() {
               </Select>
             </Heading>
             <Heading as='h5' size='sm'>Telefone
-              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.telefone} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, telefone: e.target.value })}></Input>
+              <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.telefone} onChange={handleTelefoneChange}></Input>
             </Heading>
           </div>
-
+          <div className={styles.botao_adicionar}>
+            <button className={styles.primary_button} disabled={buttonDisabled} onClick={handleSave}>Salvar Alterações</button>
+          </div>
         </div>
-
       )}
-      <div className={styles.botao_adicionar}>
-        <button className={styles.primary_button} disabled={buttonDisabled} onClick={handleUpdateHemocentro}>Salvar Alterações</button>
-      </div>
+
+      <Modal isOpen={showSuccessModal} onClose={handleSuccessModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Sucesso!</h1></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody className={styles.modal_body}>
+            <MdCheckCircle size={'80px'} color='#4BB543' />
+            {mensagemSucesso}
+          </ModalBody>
+          <ModalFooter>
+            <div className={styles.modal_footer}>
+              <button className={styles.primary_button} onClick={handleSuccessModalClose}>
+                Continuar
+              </button>
+            </div>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={showErrorModal} onClose={handleErrorModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader className={styles.modal_header}><h1 className={styles.modal_header_text}>Erro</h1></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody className={styles.modal_body}>
+            <MdCancel size={'80px'} color='#E31515' />
+            {mensagemErro}
+          </ModalBody>
+          <ModalFooter>
+            <div className={styles.modal_footer}>
+              <button onClick={handleErrorModalClose} className={styles.primary_button}>
+                Continuar
+              </button>
+            </div>
+
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
 
     </Layout>

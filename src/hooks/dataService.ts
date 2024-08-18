@@ -3,22 +3,8 @@ import api from "../config/api"
 import getToken from "../helpers/tokenUtil"
 import axios, { AxiosError } from 'axios'
 import { Data, ListarData, SalvarData } from "../interfaces/data"
+import { DeleteResult, ErrorResponse, SaveResult } from "../interfaces/responses"
 
-
-interface ErrorResponse {
-    error?: string
-    mensagem?: string
-}
-
-interface SaveResult {
-    sucesso?: string
-    erro?: string
-}
-
-interface DeleteResult {
-    sucesso?: string
-    erro?: string
-}
 
 export const salvarData = async (data: SalvarData): Promise<SaveResult> => {
     try {
