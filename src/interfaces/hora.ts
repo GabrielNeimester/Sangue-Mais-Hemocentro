@@ -3,3 +3,8 @@ export interface Hora {
     horario: string
     dataId: string
   }
+
+export interface NovaHora {
+    horario: string
+    dataId: string
+}

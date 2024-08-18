@@ -58,6 +58,8 @@ export default function HemocentroPagina() {
     bairro: '',
     telefone: '',
     email: '',
+    endereco: '',
+    numero: '',
     ativo: false
   })
 
@@ -121,9 +123,19 @@ export default function HemocentroPagina() {
             <Heading as='h5' size='sm'>Nome
               <Input borderColor={'#000000'} required={true} value={edicaoHemocentro.nome} isDisabled={buttonDisabled} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, nome: e.target.value })}></Input>
             </Heading>
+            <div className={styles.container_estado}>
             <Heading as='h5' size='sm'>Bairro
               <Input borderColor={'#000000'} isDisabled={buttonDisabled} value={edicaoHemocentro.bairro} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, bairro: e.target.value })}></Input>
             </Heading>
+            <Heading as='h5' size='sm'>Número
+              <Input borderColor={'#000000'} isDisabled={buttonDisabled} value={edicaoHemocentro.numero} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, numero: e.target.value })}></Input>
+            </Heading>
+            </div>
+            <Heading as='h5' size='sm'>Endereço
+              <Input borderColor={'#000000'} isDisabled={buttonDisabled} value={edicaoHemocentro.endereco} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, endereco: e.target.value })}></Input>
+            </Heading>
+
+           
             <Heading as='h5' size='sm'>Cidade
               <Input isDisabled={buttonDisabled} borderColor={'#000000'} value={edicaoHemocentro.cidade} onChange={(e) => setEdicaoHemocentro({ ...edicaoHemocentro, cidade: e.target.value })}></Input>
             </Heading>

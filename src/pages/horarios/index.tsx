@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import Layout from '../../components/Layout'
-import { Button, FormControl, FormErrorMessage, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
+import { FormControl, FormErrorMessage, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
 import styles from "../horarios/Horarios.module.css"
 import Erro from '../../components/Erro'
 import { MdOutlineHistory, MdDeleteOutline, MdCancel, MdCheckCircle } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
-import { useHora } from '../../hooks/queries/hora/useHora'
 import { Hora } from '../../interfaces/hora'
-import { useDeleteHora, useSalvarHora } from '../../hooks/mutations/hora/mutationHora'
+import { deletarHora, salvarHorario, useHora } from '../../hooks/horarioService'
 
 export default function HoraPagina() {
     const { dataId } = useParams<{ dataId: string }>()
@@ -26,28 +25,22 @@ export default function HoraPagina() {
     const [mensagemSucesso, setMensagemSucesso] = useState('')
     const [error, setError] = useState('')
 
-
-    const mutate = useSalvarHora()
-
-    const mutateDelete = useDeleteHora()
-
     const handleSave = async () => {
         if (!novaHora || !novaHora.trim()) {
             setError('Por favor informe um horário');
             return
         }
-        try {
-            await mutate.mutateAsync({
-                horario: novaHora,
-                dataId: String(dataId)
-            })
-            onClose()
-            setMensagemSucesso("Novo horário salvo com sucesso!")
-            setShowSuccessModal(true)
 
-        } catch (error) {
+        const result = await salvarHorario({horario: novaHora, dataId: String(dataId)})
+
+        if (result.sucesso) {
             onClose()
-            setMensagemErro("Ocorreu um erro ao tentar salvar o novo horário. Por favor, tente novamente mais tarde.")
+            setMensagemSucesso(result.sucesso)
+            setShowSuccessModal(true)
+        }
+        if (result.erro) {
+            onClose()
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
         }
     }
@@ -68,17 +61,17 @@ export default function HoraPagina() {
     }
 
     const handleDeleteHora = async (id: string) => {
-        try {
-            await mutateDelete.mutateAsync(id)
+        const result = await deletarHora(id)
+
+        if (result.sucesso) {
             onClose()
-            setMensagemSucesso("Data foi deletada com sucesso")
+            setMensagemSucesso(result.sucesso)
             setShowSuccessModal(true)
-
-        } catch (error) {
+        }
+        if (result.erro) {
             onClose()
-            setMensagemErro("Ocorreu um erro ao deletar a data. Por favor, tente novamente mais tarde.")
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
-
         }
     }
 
@@ -117,7 +110,7 @@ export default function HoraPagina() {
                             </div>
                         ))}
                         <div className={styles.botao_adicionar}>
-                            <button onClick={onOpen} className={styles.primary_button}>Adicionar nova Data</button>
+                            <button onClick={onOpen} className={styles.primary_button}>Adicionar novo Horário</button>
                         </div>
                     </div>
                 )}

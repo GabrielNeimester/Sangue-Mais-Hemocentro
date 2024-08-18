@@ -5,6 +5,8 @@ export interface Hemocentro {
     estado: string
     cidade: string
     bairro: string
+    endereco: string
+    numero:string
     telefone: string
     email: string
     ativo: boolean
