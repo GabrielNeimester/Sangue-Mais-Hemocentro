@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../../components/Layout'
 import { useAgendamento } from '../../hooks/queries/agendamento/useAgendamento'
 import { Agendamento } from '../../interfaces/agendamento'
-import { Heading, IconButton, Skeleton, Stack } from '@chakra-ui/react'
+import { Heading, Skeleton, Stack } from '@chakra-ui/react'
 import styles from "../agendamento/Agendamento.module.css"
 import Erro from '../../components/Erro'
 import { MdOutlineEdit, MdOutlineViewList, MdOutlineVisibility } from 'react-icons/md'
@@ -39,8 +39,6 @@ export default function Agendamentos() {
                                         <MdOutlineViewList size={'56px'} />
                                         <p className={styles.card_titulo}><strong>Agendamento </strong>  </p>
                                     </div>
-
-
                                     <p className={styles.card_subtitulo}><strong>Doador: {agendamento.nomeCompleto}</strong> </p>
                                     <p className={styles.text}>Data do Agendamento: {agendamento.dataAgendamento}</p>
                                     <div className={styles.card_text}>
@@ -50,7 +48,6 @@ export default function Agendamentos() {
                                         <p className={` ${agendamento.impedimento === 'nenhum' ? styles['status-concluida'] : agendamento.impedimento === 'definitivo' ? styles['status-bloqueado'] : agendamento.impedimento === 'temporario' ? styles['status-temporario'] : ''}`}>{agendamento.impedimento}</p>
                                     </div>
                                     <div className={styles.card_text}>
-
                                     </div>
                                     <p>ID {agendamento._id}</p>
                                 </div>

@@ -11,4 +11,19 @@
     margin: 32px 32px 32px 16px;
 }
 
+.statusLiberado {
+    color: blue;
+}
+
+.statusConcluido {
+    color: green;
+}
+
+.statusBloqueado, .statusCancelado {
+    color: red;
+}
+
+.statusIcon {
+    margin-right: 8px;
+}
 

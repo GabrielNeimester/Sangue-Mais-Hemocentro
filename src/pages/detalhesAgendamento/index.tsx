@@ -5,14 +5,39 @@ import Erro from '../../components/Erro'
 import { useParams } from 'react-router-dom'
 import { useAgendamentoById } from '../../hooks/queries/agendamento/useAgendamento'
 import styles from './DetalhesAgendamento.module.css'
+import { MdCancel, MdError, MdCheckCircle} from "react-icons/md"
 
 export default function DetalhesAgendamento() {
     const { agendamentoId } = useParams<{ agendamentoId: string }>()
 
     const { agendamento, isLoading, isError } = useAgendamentoById(String(agendamentoId))
 
-    console.log("agendamentoId:", agendamentoId)
-    console.log("agendamento:", agendamento)
+    const getStatusClass = (status: string) => {
+        switch (status) {
+            case 'liberado':
+                return styles.statusLiberado;
+            case 'concluído':
+                return styles.statusConcluido;
+            case 'bloqueado':
+            case 'cancelado':
+                return styles.statusBloqueado; // Usamos a mesma classe para bloqueado e cancelado
+            default:
+                return '';
+        }
+    };
+
+    const getStatusIcon = (status: string) => {
+        switch (status) {
+            case 'liberado':
+            case 'concluído':
+                return <MdCheckCircle className={styles.statusIcon} />;
+            case 'bloqueado':
+            case 'cancelado':
+                return <MdCancel className={styles.statusIcon} />;
+            default:
+                return <MdError className={styles.statusIcon} />;
+        }
+    };
 
     return (
         <Layout>
@@ -52,25 +77,21 @@ export default function DetalhesAgendamento() {
                                     </Box>
                                     <Box>
                                         <Heading size='xs'>
-                                            Data de Nascimento do doador
+                                            Data de Nascimento do doador:
                                         </Heading>
                                         <p>{agendamento.dataNascimento}</p>
                                     </Box>
                                     <Box display='flex' justifyContent='space-around'>
                                         <Box>
-                                            <Heading size='xs'>
-                                                Status da Doação:
-                                            </Heading>
-                                            <p>{agendamento.statusDoacao}</p>
+                                            <Heading size='xs'>Status da Doação:</Heading>
+                                            <p className={getStatusClass(agendamento.statusDoacao)}>
+                                                {getStatusIcon(agendamento.statusDoacao)} {agendamento.statusDoacao}
+                                            </p>
                                         </Box>
                                         <Box>
-                                            <Heading size='xs'>
-                                                Impedimento:
-                                            </Heading>
+                                            <Heading size='xs'>Impedimento:</Heading>
                                             <p>{agendamento.impedimento} ({agendamento.diasImpedidos} dia(s))</p>
                                         </Box>
-
-
                                     </Box>
                                     <Box>
                                         <Heading size='xs'>
