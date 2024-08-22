@@ -183,7 +183,6 @@ export default function Calendario() {
                                 Continuar
                             </button>
                         </div>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>

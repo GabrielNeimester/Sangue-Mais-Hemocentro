@@ -5,6 +5,7 @@
 
 .card{
     margin: 32px;
+    border: 1px solid  #CACACA !important
 }
 
 .titulo{
@@ -13,17 +14,53 @@
 
 .statusLiberado {
     color: blue;
+    display: flex;
+    align-items: center;
 }
 
 .statusConcluido {
     color: green;
+    display: flex;
+    align-items: center;
 }
 
 .statusBloqueado, .statusCancelado {
     color: red;
+    display: flex;
+    align-items: center;
 }
 
 .statusIcon {
     margin-right: 8px;
+    display: flex;
+    align-items: center;
 }
 
+.primary_button{
+    background-color: #E31515;
+    color: #FFFFFF;
+    padding: 8px 32px 8px 32px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.primary_button:hover{
+    background-color: #ed3e3e;
+}
+
+.primary_button:active{
+    background-color: #b41111;
+}
+
+.secondary_button{
+    color: #E31515;
+    padding: 8px 32px 8px 32px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: solid 1px #E31515;
+}
+
+.secondary_button:hover{
+    box-shadow: 2px 2px 4px #CACACA;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../../components/Layout'
-import { Box, Button, Card, CardBody, CardHeader, Heading, Skeleton, Stack, StackDivider } from '@chakra-ui/react'
+import { Box, Button, Card, CardBody, CardHeader, Heading, Skeleton, Stack, StackDivider, border } from '@chakra-ui/react'
 import Erro from '../../components/Erro'
 import { useParams } from 'react-router-dom'
 import { useAgendamentoById } from '../../hooks/queries/agendamento/useAgendamento'
@@ -16,11 +16,12 @@ export default function DetalhesAgendamento() {
         switch (status) {
             case 'liberado':
                 return styles.statusLiberado;
-            case 'concluído':
+            case 'concluida':
+            case 'nenhum':
                 return styles.statusConcluido;
             case 'bloqueado':
-            case 'cancelado':
-                return styles.statusBloqueado; // Usamos a mesma classe para bloqueado e cancelado
+            case 'cancelada':
+                return styles.statusBloqueado;
             default:
                 return '';
         }
@@ -29,13 +30,15 @@ export default function DetalhesAgendamento() {
     const getStatusIcon = (status: string) => {
         switch (status) {
             case 'liberado':
-            case 'concluído':
-                return <MdCheckCircle className={styles.statusIcon} />;
+            case 'concluida':
+                return <MdCheckCircle className={styles.statusIcon} size={'24px'}/>;
+            case 'nenhum':
+                return <MdCheckCircle className={styles.statusIcon} size={'24px'} />;
             case 'bloqueado':
-            case 'cancelado':
-                return <MdCancel className={styles.statusIcon} />;
+            case 'cancelada':
+                return <MdCancel className={styles.statusIcon} size={'24px'} />;
             default:
-                return <MdError className={styles.statusIcon} />;
+                return <MdError className={styles.statusIcon} size={'24px'}/>;
         }
     };
 
@@ -63,8 +66,8 @@ export default function DetalhesAgendamento() {
                                 <Heading size='md'>AGENDAMENTO ID {agendamento._id}</Heading>
                             </CardHeader>
 
-                            <CardBody>
-                                <Stack divider={<StackDivider />} spacing='4'>
+                            <CardBody >
+                                <Stack divider={<StackDivider />} spacing='4' borderBottomColor={'#CACACA'} className={styles.internal_border}>
                                     <Box>
                                         <Heading size='xs'>
                                             Nome Completo
@@ -90,7 +93,8 @@ export default function DetalhesAgendamento() {
                                         </Box>
                                         <Box>
                                             <Heading size='xs'>Impedimento:</Heading>
-                                            <p>{agendamento.impedimento} ({agendamento.diasImpedidos} dia(s))</p>
+                                            <p className={getStatusClass(agendamento.impedimento)}>
+                                            {getStatusIcon(agendamento.impedimento)} {agendamento.impedimento} ({agendamento.diasImpedidos} dia(s))</p>
                                         </Box>
                                     </Box>
                                     <Box>
@@ -101,8 +105,8 @@ export default function DetalhesAgendamento() {
                                     </Box>
                                     {agendamento.statusDoacao === 'liberado' && (
                                         <Box  display='flex' justifyContent='center'>
-                                            <Button>Concluir</Button>
-                                            <Button>Cancelar</Button>
+                                            <button className={styles.primary_button}>Confirmar</button>
+                                            <button className={styles.secondary_button}>Cancelar</button>
                                         </Box>
                                     )}
                                 </Stack>
