@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import Layout from '../../components/Layout'
-import { useQuestoes } from '../../hooks/queries/questoes/useQuestao'
 import { Questao } from '../../interfaces/questao'
-import { useOpcao } from '../../hooks/queries/opcoes/useOpcoes'
 import { Opcao } from '../../interfaces/opcao'
 import styles from '../formulario/Formulario.module.css'
-import { Button, FormControl, FormErrorMessage, FormLabel, Heading, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Skeleton, Stack, useDisclosure } from '@chakra-ui/react'
 import { MdCancel, MdCheckCircle, MdDeleteOutline, MdOutlineEdit } from 'react-icons/md'
 import Erro from '../../components/Erro'
-import { useDeleteOpcao, useSalvarOpcao } from '../../hooks/mutations/opcoes/mutationOpcoes'
-import { useDeleteQuestao, useSalvarQuestao, useUpdateQuestao } from '../../hooks/mutations/questoes/mutationQuestoes'
+import { atualizarQuestao, deletarQuestao, salvarQuestao, useQuestoes } from '../../hooks/questoesService'
+import { deletarOpcao, salvarOpcao, useOpcao } from '../../hooks/opcoesService'
 
 export default function Formulario() {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -26,24 +24,23 @@ export default function Formulario() {
     const [idQuestao, setIdQuestao] = useState('')
     const [adicionarQuestao, setAdicionarQuestao] = useState('')
 
-    const mutate = useUpdateQuestao()
-    const mutateDeleteQuestao = useDeleteQuestao()
-    const mutateSalvar = useSalvarQuestao()
-
     const handleSave = async () => {
         if (!adicionarQuestao) {
             setError('Por favor informe uma descricao');
             return
         }
-        try {
-            mutateSalvar.mutateAsync({ descricao: adicionarQuestao })
-            handleSaveModalClose()
-            setMensagemSucesso("A nova questao foi salva com sucesso.")
-            setShowSuccessModal(true)
+        const result = await salvarQuestao({ descricao: adicionarQuestao })
 
-        } catch (error) {
-            handleSaveModalClose()
-            setMensagemErro("Ocorreu um erro ao tentar salvar a questão. Por favor, tente novamente mais tarde.")
+        if (result.sucesso) {
+            onClose()
+            setShowSaveModal(false)
+            setMensagemSucesso(result.sucesso)
+            setShowSuccessModal(true)
+        }
+        if (result.erro) {
+            onClose()
+            setShowSaveModal(false)
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
         }
     }
@@ -53,30 +50,32 @@ export default function Formulario() {
             setError('Por favor informe uma descricao');
             return
         }
-        try {
-            mutate.mutateAsync({ id: idQuestao, descricao: editarQuestao })
-            onClose()
-            setMensagemSucesso("Alteração salva com sucesso")
-            setShowSuccessModal(true)
+        const result = await atualizarQuestao({ _id: idQuestao, descricao: editarQuestao })
 
-        } catch (error) {
+        if (result.sucesso) {
             onClose()
-            setMensagemErro("Ocorreu um erro ao salvar alteração. Por favor, tente novamente mais tarde.")
+            setMensagemSucesso(result.sucesso)
+            setShowSuccessModal(true)
+        }
+        if (result.erro) {
+            onClose()
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
         }
     }
 
     const handleDeleteQuestao = async (id: string) => {
-        try {
-            await mutateDeleteQuestao.mutateAsync(id)
-            setMensagemSucesso("A questão foi deletada com sucesso")
+        const result = await deletarQuestao(id)
+
+        if (result.sucesso) {
+            onClose()
+            setMensagemSucesso(result.sucesso)
             setShowSuccessModal(true)
-            refetchQuestoes()
-
-        } catch (error) {
-            setMensagemErro("Ocorreu um erro ao deletar a questão. Por favor, tente novamente mais tarde.")
+        }
+        if (result.erro) {
+            onClose()
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
-
         }
     }
 
@@ -232,7 +231,6 @@ export default function Formulario() {
                                 Continuar
                             </button>
                         </div>
-
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -245,14 +243,13 @@ interface OpcoesProps {
     refetchQuestoes: () => void
 }
 
-export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) => {
+export const Opcoes: React.FC<OpcoesProps> = ({ questaoId}) => {
     const { opcao, isLoading, refetch } = useOpcao(questaoId)
 
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [showErrorModal, setShowErrorModal] = useState(false)
     const [mensagemErro, setMensagemErro] = useState('')
     const [mensagemSucesso, setMensagemSucesso] = useState('')
-    const mutateDeleteOpcao = useDeleteOpcao()
 
     const [novaDescricao, setNovaDescricao] = useState('')
     const [diasImpedidos, setDiasImpedidos] = useState(0)
@@ -263,8 +260,6 @@ export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) =>
     const finalRef = React.useRef(null)
     const [error, setError] = useState('')
     const [tipoImpedimento, setTipoImpedimento] = useState('')
-
-    const mutate = useSalvarOpcao()
 
     const handleAdicionarOpcao = (questaoId: string) => {
         setQuestaoIdSelecionada(questaoId)
@@ -283,16 +278,16 @@ export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) =>
     }
 
     const handleDeleteOpcao = async (id: string) => {
-        try {
-            await mutateDeleteOpcao.mutateAsync(id)
-            setMensagemSucesso("A opção foi deletada com sucesso")
+
+        const result = await deletarOpcao(id)
+
+        if (result.sucesso) {
+            setMensagemSucesso(result.sucesso)
             setShowSuccessModal(true)
-            refetchQuestoes()
-
-        } catch (error) {
-            setMensagemErro("Ocorreu um erro ao deletar a opção. Por favor, tente novamente mais tarde.")
+        }
+        if (result.erro) {
+            setMensagemErro(result.erro)
             setShowErrorModal(true)
-
         }
     }
 
@@ -314,47 +309,56 @@ export const Opcoes: React.FC<OpcoesProps> = ({ questaoId, refetchQuestoes }) =>
         if (tipoImpedimento === 'temporario' || tipoImpedimento === 'nenhum' || tipoImpedimento === 'definitivo') {
             if (tipoImpedimento === 'temporario') {
                 if (!isNaN(diasImpedidos) && diasImpedidos > 0) {
-                    try {
-                        mutate.mutateAsync({
-                            descricao: novaDescricao,
-                            questaoId: questaoIdSelecionada,
-                            impedimento: tipoImpedimento,
-                            diasImpedidos: diasImpedidos
-                        })
-                        handleClose()
-                        setMensagemSucesso("A nova opção foi salva com sucesso.")
-                        setShowSuccessModal(true)
+                    const result = await salvarOpcao({
+                        descricao: novaDescricao,
+                        questaoId: questaoIdSelecionada,
+                        impedimento: tipoImpedimento,
+                        diasImpedidos: diasImpedidos
+                    })
 
-                    } catch (error) {
+                    if (result.sucesso) {
                         handleClose()
-                        setMensagemErro("Ocorreu um erro ao tentar salvar a opção. Por favor, tente novamente mais tarde.")
+                        setMensagemSucesso(result.sucesso)
+                        setShowSuccessModal(true)
+                    }
+
+
+                    if (result.erro) {
+                        handleClose()
+                        setMensagemErro(result.erro)
                         setShowErrorModal(true)
                     }
+
+
                 }
                 else {
-                    console.log(diasImpedidos)
                     setError('Por favor informe uma quantidade de dias válidos')
                     return
                 }
 
             }
             else {
-                try {
-                    mutate.mutateAsync({
+
+                    const result = await salvarOpcao({
                         descricao: novaDescricao,
                         questaoId: questaoIdSelecionada,
                         impedimento: tipoImpedimento,
                         diasImpedidos: 0
                     })
-                    handleClose()
-                    setMensagemSucesso("A nova opção foi salva com sucesso.")
-                    setShowSuccessModal(true)
 
-                } catch (error) {
-                    handleClose()
-                    setMensagemErro("Ocorreu um erro ao tentar salvar a opção. Por favor, tente novamente mais tarde.")
-                    setShowErrorModal(true)
-                }
+                    if (result.sucesso) {
+                        handleClose()
+                        setMensagemSucesso(result.sucesso)
+                        setShowSuccessModal(true)
+                    }
+
+
+                    if (result.erro) {
+                        handleClose()
+                        setMensagemErro(result.erro)
+                        setShowErrorModal(true)
+                    }
+
             }
 
         }
