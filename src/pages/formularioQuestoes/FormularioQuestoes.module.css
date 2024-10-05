@@ -1,0 +1,137 @@
+.card {
+    border: solid 0.2px #CACACA;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 8px 32px 8px 16px;
+
+}
+
+.card_container{
+    margin-bottom: 32px;
+}
+
+.card_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.skeleton div{
+    margin: 8px 32px 8px 16px;
+    height: 50px;
+}
+
+.titulo{
+    margin: 32px 32px 32px 16px;
+}
+
+.radio_group{
+    margin: 8px 32px 8px 16px;
+    display: flex;
+}
+
+p {
+    font-size: 18px;
+}
+.radio_button{
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+}
+.radio_button_card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal_header{
+    align-self: center;
+}
+
+.modal_header_text{
+    color: #E31515;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.modal_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+
+
+.modal_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_text_details {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.modal_footer button{
+    display: flex;
+    justify-content: center;
+    margin: 4px;
+}
+
+.primary_button{
+    background-color: #E31515;
+    color: #FFFFFF;
+    padding: 8px 32px 8px 32px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.primary_button:hover{
+    background-color: #ed3e3e;
+}
+
+.primary_button:active{
+    background-color: #b41111;
+}
+
+.secondary_button{
+    color: #E31515;
+    padding: 8px 32px 8px 32px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: solid 1px #E31515;
+}
+
+.secondary_button:hover{
+    box-shadow: 2px 2px 4px #CACACA;
+}
+
+.icon_button{
+    background-color: #E31515;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: 8px;
+    margin-left: 16px;
+}
+
+.icon_button:hover{
+    background-color: #ed3e3e;
+}
+
+.icon_button:active{
+    background-color: #b41111;
+}
+
+.botao_adicionar{
+    margin-left: 16px;
+    margin-bottom: 32px;
+}
+
+.texto{
+    margin-left: 16px;
+    margin-bottom: 16px;
+ }

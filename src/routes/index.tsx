@@ -8,6 +8,8 @@ import Calendario from "../pages/calendario"
 import Agendamentos from "../pages/agendamento"
 import HoraPagina from "../pages/horarios"
 import DetalhesAgendamento from "../pages/detalhesAgendamento"
+import FormularioQuestoes from "../pages/formularioQuestoes"
+import FormularioPadrao from "../pages/formularioPadrao"
 
 
 
@@ -43,6 +45,14 @@ const routes = createBrowserRouter([
   {
     path:"/detalheAgendamento/:agendamentoId",
     element: <DetalhesAgendamento/>
+  },
+  {
+    path:"/formulario/personalizado",
+    element: <FormularioQuestoes/>
+  },
+  {
+    path:"/formulario/padrao",
+    element: <FormularioPadrao/>
   }
 ])
 
