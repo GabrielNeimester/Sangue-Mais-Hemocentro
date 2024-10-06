@@ -13,19 +13,19 @@
 }
 
 .statusLiberado {
-    color: blue;
+    color: #0F1B8D;
     display: flex;
     align-items: center;
 }
 
 .statusConcluido {
-    color: green;
+    color: #0BB931;
     display: flex;
     align-items: center;
 }
 
 .statusBloqueado, .statusCancelado {
-    color: red;
+    color: #BC0808;
     display: flex;
     align-items: center;
 }
@@ -63,4 +63,59 @@
 
 .secondary_button:hover{
     box-shadow: 2px 2px 4px #CACACA;
+}
+
+.status_nenhum {
+    color: #0BB931;
+    display: flex;
+    align-items: center;
+  }
+
+  .status_definitivo {
+    color: #BC0808;
+    display: flex;
+    align-items: center;
+  }
+  
+  .status_temporario {
+    color:#FF9315;
+    display: flex;
+    align-items: center;
+  }
+
+  .modal_header{
+    align-self: center;
+}
+
+.modal_header_text{
+    color: #E31515;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.modal_footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+
+
+.modal_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_text_details {
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.modal_footer button{
+    display: flex;
+    justify-content: center;
+    margin: 4px;
 }

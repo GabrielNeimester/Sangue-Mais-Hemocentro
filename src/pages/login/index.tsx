@@ -2,7 +2,7 @@
 import SenhaInput from '../../components/inputSenha'
 import styles from './Login.module.css'
 import { Heading, Input } from "@chakra-ui/react"
-import { fazerLogin } from '../../hooks/mutations/mutationAuth'
+import { fazerLogin } from '../../hooks/mutationAuth'
 import {useState } from 'react'
 
 

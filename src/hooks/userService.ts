@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import api from "../../../config/api";
-import { User } from "../../../interfaces/user";
-import getToken from "../../../helpers/tokenUtil";
+import api from "../config/api";
+import { User } from "../interfaces/user";
+import getToken from "../helpers/tokenUtil";
 
 export function useUsers(hemocentroId:string) {
   const [users, setUsers] = useState<User[]>([])

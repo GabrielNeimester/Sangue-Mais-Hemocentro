@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../../components/Layout'
-import { useAgendamento } from '../../hooks/queries/agendamento/useAgendamento'
+import { useAgendamento } from '../../hooks/agendamentoService'
 import { Agendamento } from '../../interfaces/agendamento'
 import { Heading, Skeleton, Stack } from '@chakra-ui/react'
 import styles from "../agendamento/Agendamento.module.css"
@@ -11,6 +11,11 @@ import { Link } from 'react-router-dom'
 export default function Agendamentos() {
 
     const { agendamento, isLoading, isError } = useAgendamento()
+
+    const formatarData = (data: string) => {
+        const [year, month, day] = data.split('T')[0].split('-')
+        return `${day}/${month}/${year}`
+    }
 
 
     return (
@@ -40,7 +45,7 @@ export default function Agendamentos() {
                                         <p className={styles.card_titulo}><strong>Agendamento </strong>  </p>
                                     </div>
                                     <p className={styles.card_subtitulo}><strong>Doador: {agendamento.nomeCompleto}</strong> </p>
-                                    <p className={styles.text}>Data do Agendamento: {agendamento.dataAgendamento}</p>
+                                    <p className={styles.text}>Data do Agendamento: {formatarData(agendamento.dataAgendamento)}</p>
                                     <div className={styles.card_text}>
                                         <p>Status da doação:</p>
                                         <p className={` ${agendamento.statusDoacao === 'liberado' ? styles['status-liberado'] : agendamento.statusDoacao === 'concluida' ? styles['status-concluida'] : agendamento.statusDoacao === 'bloqueado' ? styles['status-bloqueado'] : agendamento.statusDoacao === 'cancelada' ? styles['status-cancelada'] : ''}`}>{agendamento.statusDoacao}</p>

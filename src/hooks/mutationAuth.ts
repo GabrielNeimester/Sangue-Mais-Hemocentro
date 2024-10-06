@@ -1,4 +1,4 @@
-import api from "../../config/api"
+import api from "../config/api"
 
 
 export const fazerLogin = async (nome: string, senha: string) => {
@@ -12,7 +12,7 @@ export const fazerLogin = async (nome: string, senha: string) => {
             
             document.cookie = `token=${encodeURIComponent(token)}`
 
-            return response.status; // Retorna o código de resposta da API
+            return response.status
         } catch (error) {
             console.error('Erro ao fazer login:', error)
         }
