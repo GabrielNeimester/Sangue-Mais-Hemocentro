@@ -63,7 +63,7 @@ export function useHora(dataId:string) {
         setIsLoading(true);
         setIsError(false);
   
-        api.get<Hora[]>(`/hora/${dataId}`)
+        api.get<Hora[]>(`/hora/ListarTodas/${dataId}`)
         .then((response) => {
             setHora(response.data);
             setIsLoading(false);

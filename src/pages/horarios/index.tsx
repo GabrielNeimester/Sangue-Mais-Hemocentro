@@ -18,6 +18,8 @@ export default function HoraPagina() {
     const finalRef = React.useRef(null)
 
     const [novaHora, setNovaHora] = useState('')
+    const [quantidade, setQuantidade] = useState(0)
+
 
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [showErrorModal, setShowErrorModal] = useState(false)
@@ -27,11 +29,16 @@ export default function HoraPagina() {
 
     const handleSave = async () => {
         if (!novaHora || !novaHora.trim()) {
-            setError('Por favor informe um horário');
+            setError('Todos os campos são obrigatórios');
             return
         }
 
-        const result = await salvarHorario({horario: novaHora, dataId: String(dataId)})
+        if (!quantidade || quantidade <= 0 || quantidade > 100) {
+            setError('Todos os campos são obrigatórios');
+            return
+        }
+
+        const result = await salvarHorario({ horario: novaHora, dataId: String(dataId), quantidade: quantidade })
 
         if (result.sucesso) {
             onClose()
@@ -61,6 +68,7 @@ export default function HoraPagina() {
     }
 
     const handleDeleteHora = async (id: string) => {
+        console.log(id)
         const result = await deletarHora(id)
 
         if (result.sucesso) {
@@ -103,6 +111,10 @@ export default function HoraPagina() {
                                         <Heading as='h5' size='sm'>Horário</Heading>
                                         <p>{hora.horario}</p>
                                     </div>
+                                    <div className={styles.horario}>
+                                        <Heading as='h5' size='sm'>Vagas Disponíveis</Heading>
+                                        <p>{hora.quantidade}</p>
+                                    </div>
                                 </div>
 
                                 <button className={styles.icon_button} aria-label='Deletar' onClick={() => { handleDeleteHora(hora._id) }}> <MdDeleteOutline size={'24px'} /></button>
@@ -129,6 +141,9 @@ export default function HoraPagina() {
                         <FormControl isInvalid={!!error}>
                             <p className={styles.modal_text_details}>Informe o horário:</p>
                             <Input placeholder='Selecione uma data' size='md' type='time' onChange={(e) => setNovaHora(e.target.value)}
+                                required></Input>
+                            <p className={styles.modal_text_details}>Informe o número de vagas:</p>
+                            <Input placeholder='informe o número de vagas' size='md' onChange={(e) => setQuantidade(Number(e.target.value))}
                                 required></Input>
                             {error && <FormErrorMessage>{error}</FormErrorMessage>}
                         </FormControl>
